@@ -3,19 +3,38 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useAuth } from "@/lib/auth";
+
 export default function AuthForm({ mode }: { mode: "login" | "signup" }) {
   const { auth } = useAuth(); const router = useRouter(); const s = mode === "signup";
   const [err, setErr] = useState(""); const [busy, setBusy] = useState(false);
+
   async function submit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault(); setBusy(true); setErr("");
-    try { await auth(mode, Object.fromEntries(new FormData(e.currentTarget))); router.push("/account"); } catch (x: any) { setErr(x.message); }
+    try {
+      const d: any = Object.fromEntries(new FormData(e.currentTarget));
+      // Backend expects address as a nested object
+      const body = s
+        ? { name: d.name, email: d.email, phone: d.phone, password: d.password,
+            address: { line1: d.line1, line2: d.line2, landmark: d.landmark, pincode: d.pincode } }
+        : { email: d.email, password: d.password };
+      await auth(mode, body);
+      router.push("/account");
+    } catch (x: any) { setErr(x.message); }
     setBusy(false);
   }
+
   return (<div className="w" style={{ padding: "40px 20px" }}><h1 style={{ fontSize: "2.2rem" }}>{s ? "Create account" : "Log in"}</h1>
     <form className="f" onSubmit={submit}>
       {s && <label>Name<input name="name" required /></label>}
       <label>Email<input name="email" type="email" required /></label>
-      {s && <label>Phone number<input name="phone" inputMode="numeric" pattern="\d{10}" placeholder="10 digits" required /></label>}
+      {s && <label>Phone number<input name="phone" inputMode="numeric" pattern="\d{10}" maxLength={10} placeholder="10 digits" required /></label>}
+      {s && <>
+        <label>Address line 1<input name="line1" placeholder="House no., Society / Building" minLength={5} required /></label>
+        <label>Address line 2 (optional)<input name="line2" placeholder="Area, Road" /></label>
+        <label>Landmark (optional)<input name="landmark" placeholder="Near..." /></label>
+        <label>City<input value="Ahmedabad" disabled readOnly /></label>
+        <label>Pincode<input name="pincode" inputMode="numeric" pattern="\d{6}" maxLength={6} placeholder="e.g. 380015 (Ahmedabad only)" required /></label>
+      </>}
       <label>Password{s && " (8 or more characters)"}<input name="password" type="password" minLength={s ? 8 : 1} required /></label>
       {err && <div className="err" role="alert">{err}</div>}
       <button className="btn" disabled={busy}>{busy ? "Please wait..." : s ? "Sign up" : "Log in"}</button>
