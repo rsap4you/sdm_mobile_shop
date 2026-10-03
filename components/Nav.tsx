@@ -6,8 +6,6 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/auth";
 
-const SIZE = 40;
-
 export default function Nav() {
   const { user, logout } = useAuth();
   const router = useRouter();
@@ -39,16 +37,6 @@ export default function Nav() {
     router.push("/");
   }
 
-  const avatarStyle: React.CSSProperties = {
-    width: SIZE,
-    height: SIZE,
-    borderRadius: "50%",
-    objectFit: "cover",
-    border: "2px solid #ec407a",
-    cursor: "pointer",
-    display: "block",
-  };
-
   return (
     <nav>
       <div className="w">
@@ -58,7 +46,7 @@ export default function Nav() {
             src="/logo_1.png"
             alt="SDM Mobile Logo"
             width={100}
-            height={75}
+            height={55}
             priority
           />
         </Link>
@@ -71,22 +59,14 @@ export default function Nav() {
         <Link href="/contact">Contact</Link>
 
         {user ? (
-          <div
-            ref={menuRef}
-            style={{ marginLeft: "auto", position: "relative" }}
-          >
+          <div ref={menuRef} className="profile">
             <button
               type="button"
               onClick={() => setOpen((o) => !o)}
               aria-label="Profile menu"
               aria-haspopup="menu"
               aria-expanded={open}
-              style={{
-                background: "none",
-                border: "none",
-                padding: 0,
-                cursor: "pointer",
-              }}
+              className="profile-btn"
             >
               {user.profileImage ? (
                 // Plain <img> so Cloudinary URLs work without extra Next config
@@ -94,54 +74,18 @@ export default function Nav() {
                 <img
                   src={user.profileImage}
                   alt={user.name}
-                  style={avatarStyle}
+                  className="avatar"
                 />
               ) : (
-                <span
-                  style={{
-                    ...avatarStyle,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    background: "#ec407a",
-                    color: "#fff",
-                    fontWeight: 700,
-                    fontSize: "1.1rem",
-                  }}
-                >
+                <span className="avatar avatar-letter">
                   {user.name.charAt(0).toUpperCase()}
                 </span>
               )}
             </button>
 
             {open && (
-              <div
-                role="menu"
-                style={{
-                  position: "absolute",
-                  right: 0,
-                  top: SIZE + 10,
-                  minWidth: 180,
-                  background: "#2a1a4a",
-                  border: "1px solid #4a3a6a",
-                  borderRadius: 12,
-                  padding: 8,
-                  boxShadow: "0 8px 24px rgba(0,0,0,0.4)",
-                  zIndex: 1000,
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: 4,
-                }}
-              >
-                <div
-                  style={{
-                    padding: "6px 10px",
-                    fontSize: "0.85rem",
-                    opacity: 0.8,
-                    borderBottom: "1px solid #4a3a6a",
-                    marginBottom: 4,
-                  }}
-                >
+              <div role="menu" className="menu">
+                <div className="menu-head">
                   Hi, {user.name.split(" ")[0]}
                 </div>
 
@@ -149,7 +93,7 @@ export default function Nav() {
                   href="/account"
                   role="menuitem"
                   onClick={() => setOpen(false)}
-                  style={{ padding: "8px 10px", borderRadius: 8 }}
+                  className="menu-item"
                 >
                   My account
                 </Link>
@@ -158,16 +102,7 @@ export default function Nav() {
                   type="button"
                   role="menuitem"
                   onClick={handleLogout}
-                  style={{
-                    padding: "8px 10px",
-                    borderRadius: 8,
-                    background: "none",
-                    border: "none",
-                    color: "#ff6b8b",
-                    textAlign: "left",
-                    cursor: "pointer",
-                    font: "inherit",
-                  }}
+                  className="menu-item danger"
                 >
                   Log out
                 </button>
