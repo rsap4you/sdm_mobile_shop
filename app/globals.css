@@ -15,10 +15,15 @@
 @layer base {
   html {
     -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
   }
   body {
     @apply m-0 overflow-x-hidden bg-ink leading-relaxed text-fg;
     font-family: var(--f), system-ui, sans-serif;
+    background-image:
+      radial-gradient(60rem 30rem at 85% -10%, rgba(238, 63, 139, 0.14), transparent 60%),
+      radial-gradient(50rem 30rem at -10% 10%, rgba(51, 174, 230, 0.1), transparent 60%);
+    background-attachment: fixed;
   }
   a {
     color: inherit;
@@ -69,30 +74,97 @@
     @apply mx-auto w-full max-w-[1040px] px-4 sm:px-5;
   }
 
-  /* ----- NAVBAR ----- */
-  nav {
-    @apply border-b border-line;
+  /* ===== NAVBAR ===== */
+  .nav {
+    @apply sticky top-0 z-50 border-b border-line bg-ink/85 backdrop-blur-md;
   }
-  nav .w {
-    @apply flex flex-wrap items-center gap-x-5 gap-y-2 py-3.5;
+  .nav-bar {
+    @apply flex items-center gap-3 py-2 md:gap-6 md:py-2.5;
   }
-  nav .logo {
-    @apply mr-3 flex shrink-0 items-center;
+  .nav-logo {
+    @apply flex shrink-0 items-center;
   }
-  nav a {
-    @apply text-mute no-underline hover:text-fg focus-visible:text-fg;
-  }
-  nav .btn {
-    @apply px-3.5 py-1.5 text-white;
+  .nav-logo img {
+    @apply h-10 w-auto sm:h-11 md:h-[52px];
   }
 
+  /* links: mobile = dropdown panel, desktop = row */
+  .nav-links {
+    @apply absolute inset-x-0 top-full hidden flex-col gap-1 border-b border-line bg-ink p-3 shadow-2xl md:static md:flex md:flex-row md:items-center md:gap-1 md:border-0 md:bg-transparent md:p-0 md:shadow-none;
+  }
+  .nav-links[data-open="true"] {
+    @apply flex;
+  }
+  .nav-link {
+    @apply rounded-lg px-3 py-2.5 text-mute no-underline transition-colors hover:bg-white/5 hover:text-fg md:py-2;
+  }
+  .nav-link.active {
+    @apply bg-pink/15 font-semibold text-fg;
+  }
+
+  .nav-right {
+    @apply ml-auto flex items-center gap-2 md:gap-3;
+  }
+  .nav-right .btn {
+    padding: 8px 16px;
+    font-size: 0.95rem;
+  }
+  .nav-login {
+    @apply hidden rounded-lg px-3 py-2 text-mute no-underline transition-colors hover:text-fg md:inline-block;
+  }
+
+  /* hamburger */
+  .burger {
+    @apply inline-flex size-10 cursor-pointer flex-col items-center justify-center gap-[5px] rounded-lg border border-line bg-panel md:hidden;
+  }
+  .burger span {
+    @apply block h-0.5 w-5 rounded bg-fg transition-all duration-200;
+  }
+  .burger[aria-expanded="true"] span:nth-child(1) {
+    @apply translate-y-[7px] rotate-45;
+  }
+  .burger[aria-expanded="true"] span:nth-child(2) {
+    @apply opacity-0;
+  }
+  .burger[aria-expanded="true"] span:nth-child(3) {
+    @apply -translate-y-[7px] -rotate-45;
+  }
+
+  /* ===== PROFILE MENU ===== */
+  .profile {
+    @apply relative;
+  }
+  .profile-btn {
+    @apply cursor-pointer border-0 bg-transparent p-0;
+  }
+  .avatar {
+    @apply block size-10 cursor-pointer rounded-full border-2 border-[#ec407a] object-cover transition hover:scale-105;
+  }
+  .avatar-letter {
+    @apply flex items-center justify-center bg-[#ec407a] text-[1.1rem] font-bold text-white;
+  }
+  .menu {
+    @apply absolute right-0 top-[50px] z-[1000] flex min-w-[190px] flex-col gap-1 rounded-xl border border-[#4a3a6a] bg-[#2a1a4a] p-2 shadow-[0_8px_24px_rgba(0,0,0,0.4)];
+  }
+  .menu-head {
+    @apply mb-1 border-b border-[#4a3a6a] px-2.5 py-1.5 text-[0.85rem] opacity-80;
+  }
+  .menu-item {
+    @apply block w-full cursor-pointer rounded-lg border-0 bg-transparent px-2.5 py-2 text-left text-fg no-underline transition-colors hover:bg-white/10;
+    font: inherit;
+  }
+  .menu-item.danger {
+    @apply text-[#ff6b8b] hover:bg-[#ff6b8b]/15;
+  }
+
+  /* ===== BUTTONS ===== */
   .btn {
-    @apply inline-block cursor-pointer rounded-[10px] border-0 bg-pink px-5 py-3 text-center font-semibold text-white no-underline;
+    @apply inline-block cursor-pointer rounded-[10px] border-0 bg-pink px-5 py-3 text-center font-semibold text-white no-underline transition duration-200 hover:-translate-y-0.5 hover:brightness-110 active:translate-y-0;
     font: inherit;
     font-weight: 600;
   }
   .btn.alt {
-    @apply border border-line bg-transparent;
+    @apply border border-line bg-transparent hover:bg-white/5;
   }
 
   .row {
@@ -102,6 +174,7 @@
     @apply flex-1 sm:flex-none;
   }
 
+  /* ===== HERO ===== */
   .hero {
     @apply grid grid-cols-1 items-center gap-8 py-8 md:grid-cols-[1.2fr_1fr] md:py-12;
   }
@@ -112,12 +185,13 @@
     @apply max-w-[52ch] text-mute;
   }
 
+  /* ===== CARDS / GRID ===== */
   .grid {
     @apply grid gap-3.5;
     grid-template-columns: repeat(auto-fill, minmax(min(210px, 100%), 1fr));
   }
   .card {
-    @apply rounded-md border-l-4 border-orange bg-panel p-4;
+    @apply rounded-md border-l-4 border-orange bg-panel p-4 transition duration-200 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-black/30;
   }
   .card.p {
     @apply border-blue;
@@ -152,6 +226,7 @@
     @apply mb-4 flex gap-2 overflow-x-auto;
   }
 
+  /* ===== FOOTER ===== */
   footer {
     @apply mt-10 border-t border-line pt-7 text-mute;
   }
@@ -177,37 +252,3 @@
     @apply grid grid-cols-1 gap-8 md:grid-cols-2;
   }
 }
-
-  /* ----- PROFILE MENU ----- */
-  .profile {
-    @apply relative ml-auto;
-  }
-  .profile-btn {
-    @apply cursor-pointer border-0 bg-transparent p-0;
-  }
-  .avatar {
-    @apply block size-10 cursor-pointer rounded-full border-2 border-[#ec407a] object-cover;
-  }
-  .avatar-letter {
-    @apply flex items-center justify-center bg-[#ec407a] text-[1.1rem] font-bold text-white;
-  }
-  .menu {
-    @apply absolute right-0 top-[50px] z-[1000] flex min-w-[180px] flex-col gap-1 rounded-xl border border-[#4a3a6a] bg-[#2a1a4a] p-2 shadow-[0_8px_24px_rgba(0,0,0,0.4)];
-  }
-  .menu-head {
-    @apply mb-1 border-b border-[#4a3a6a] px-2.5 py-1.5 text-[0.85rem] opacity-80;
-  }
-  .menu-item {
-    @apply cursor-pointer rounded-lg border-0 bg-transparent px-2.5 py-2 text-left;
-    font: inherit;
-  }
-  .menu-item.danger {
-    @apply text-[#ff6b8b];
-  }
-
-    .menu-item:hover {
-    @apply bg-white/10;
-  }
-  .menu-item.danger:hover {
-    @apply bg-[#ff6b8b]/15;
-  }
