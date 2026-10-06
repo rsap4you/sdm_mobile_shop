@@ -112,6 +112,18 @@
   .nav-login {
     @apply hidden rounded-lg px-3 py-2 text-mute no-underline transition-colors hover:text-fg md:inline-block;
   }
+  .btn.btn-ico {
+  @apply inline-flex items-center justify-center gap-2 whitespace-nowrap;
+}
+.btn.btn-ico svg {
+  @apply shrink-0;
+}
+.btn.btn-wa {
+  @apply bg-[#25D366] text-white;
+}
+.btn.btn-wa:hover {
+  @apply brightness-110;
+}
 
   /* hamburger */
   .burger {
