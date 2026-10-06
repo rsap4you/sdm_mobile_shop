@@ -32,6 +32,7 @@ export default function Home() {
               rel="noopener noreferrer"
             >
               <FaWhatsapp size={22} />
+              Whatsapp
               <span className="hidden sm:inline">{SHOP.phone}</span>
             </a>
           </div>
