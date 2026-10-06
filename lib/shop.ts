@@ -50,7 +50,7 @@ export const ISSUE_ICONS: Record<string, string> = {
   Other: "⚙️",
 };
 
-export const BRANDS = ["Samsung", "Oppo", "OnePlus", "Vivo", "Mi", "Techno","Poco","Infinix","Nothing","Apple","Other"];
+export const BRANDS = ["Samsung", "Oppo", "OnePlus", "Vivo", "Mi", "Techno","Poco","Infinix","Nothing","GooglePixel","Apple","Other"];
 export const BRAND_ICONS: Record<string, string> = {
   Samsung: "📱",
   Oppo: "📱",
@@ -61,6 +61,7 @@ export const BRAND_ICONS: Record<string, string> = {
   Poco: "📱",
   Infinix: "📱",
   Nothing: "📱",
+  GooglePixel: "📱",
   Apple: "🍎",
   Other: "❓",
 };
