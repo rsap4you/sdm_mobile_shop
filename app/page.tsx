@@ -34,7 +34,7 @@ export default function Home() {
       <section>
         <h2>Brands we service</h2>
         <div className="brands">
-          {BRANDS.slice(0, 6).map((b) => (
+          {BRANDS.slice(0, 10).map((b) => (
             <span key={b}>
               {BRAND_ICONS[b]} {b}
             </span>
