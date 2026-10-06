@@ -27,7 +27,7 @@ export const SOCIALS = [
 ];
 
 export const ISSUES = [
-  "Broken glass & LED",
+  "Broken glass & Display",
   "Battery replacement",
   "Water damage",
   "Phone unlock",
@@ -39,7 +39,7 @@ export const ISSUES = [
 ];
 
 export const ISSUE_ICONS: Record<string, string> = {
-  "Broken glass & LED": "💥",
+  "Broken glass & Display": "💥",
   "Battery replacement": "🔋",
   "Water damage": "💧",
   "Phone unlock": "🔓",
