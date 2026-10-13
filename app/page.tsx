@@ -77,6 +77,7 @@ export default function Home() {
       {/* VISIT */}
       <section>
         <h2>Visit the shop</h2>
+        <h3>Shop Time : 10:00 Am - 8:00 Pm</h3>
         <p>📍 {SHOP.address}</p>
         <div className="row">
           <a
@@ -89,6 +90,9 @@ export default function Home() {
           </a>
           <a className="btn alt" href={"tel:" + SHOP.phone}>
             📞 Call {SHOP.owner}
+          </a>
+          <a className="btn alt" href={"tel:" + SHOP.phone}>
+            📞 Call {SHOP.owner2}
           </a>
         </div>
 

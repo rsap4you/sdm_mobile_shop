@@ -10,10 +10,14 @@ export const SHOP = {
   short: "SDM Mobile",
   owner: "Pratik Patil",
   phone: "8856998493",
+  owner2: "Viresh Kushwaha",
+  phone2: "8856998493",
   wa: "https://wa.me/918856998493",
+  wa2: "https://wa.me/918264008135",
   youtube: "https://www.youtube.com/@SDM2436",
   insta: "https://instagram.com/shreedhandaimatamobile",
-  facebook: "https://www.facebook.com/YOUR_PAGE_NAME", // <- apna real link daalo
+  facebook: "https://www.facebook.com/YOUR_PAGE_NAME",
+
   address:
     "Shop No 07, Ground Floor, Shyam Avenue, Opp. Navjivan Flat, Nr. Radhe Park, Old Asopalav Society Road, Vatva, Ahmedabad - 382440",
 };
