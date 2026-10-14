@@ -8,6 +8,8 @@ const MAX_FILES = 5;
 const MAX_BYTES = 5 * 1024 * 1024;
 const OK_TYPE = /^image\/(jpeg|png|webp)$/;
 
+type Coords = { lat: number; lng: number; acc: number };
+
 // Browser mein hi resize + JPEG compress (5-8 MB photo -> ~300 KB)
 async function compress(file: File, maxSide = 1600, quality = 0.8): Promise<File> {
   try {
@@ -32,6 +34,11 @@ export default function Repair() {
   const [busy, setBusy] = useState(false);
   const [files, setFiles] = useState<File[]>([]);
 
+  // Pickup / location
+  const [pickup, setPickup] = useState<"pickup" | "walkin">("pickup");
+  const [coords, setCoords] = useState<Coords | null>(null);
+  const [locBusy, setLocBusy] = useState(false);
+
   const previews = useMemo(() => files.map((f) => URL.createObjectURL(f)), [files]);
   useEffect(() => () => previews.forEach((u) => URL.revokeObjectURL(u)), [previews]);
 
@@ -49,6 +56,34 @@ export default function Repair() {
     setFiles((p) => [...p, ...out]);
   }
 
+  // Named getMyLocation (not "use...") so React's hooks lint rule doesn't complain
+  function getMyLocation() {
+    setErr("");
+    if (!navigator.geolocation) {
+      return setErr("Location is not supported on this device.");
+    }
+    setLocBusy(true);
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        setCoords({
+          lat: pos.coords.latitude,
+          lng: pos.coords.longitude,
+          acc: Math.round(pos.coords.accuracy),
+        });
+        setLocBusy(false);
+      },
+      (e) => {
+        setLocBusy(false);
+        setErr(
+          e.code === e.PERMISSION_DENIED
+            ? "Location permission denied. Please type your address instead."
+            : "Could not get your location. Please type your address."
+        );
+      },
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+    );
+  }
+
   async function submit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setBusy(true);
@@ -60,10 +95,20 @@ export default function Repair() {
     ["name", "phone", "whatsapp", "email", "brand", "company", "model", "imei", "issue", "notes"].forEach(
       (k) => fd.append(k, d[k] ?? "")
     );
-    fd.append("address[line1]", d.line1 ?? "");
-    fd.append("address[line2]", d.line2 ?? "");
-    fd.append("address[landmark]", d.landmark ?? "");
-    fd.append("address[pincode]", d.pincode ?? "");
+
+    fd.append("pickup", pickup);
+    if (pickup === "pickup") {
+      fd.append("address[line1]", d.line1 ?? "");
+      fd.append("address[line2]", d.line2 ?? "");
+      fd.append("address[landmark]", d.landmark ?? "");
+      fd.append("address[pincode]", d.pincode ?? "");
+      if (coords) {
+        fd.append("location[lat]", String(coords.lat));
+        fd.append("location[lng]", String(coords.lng));
+        fd.append("location[accuracy]", String(coords.acc));
+      }
+    }
+
     files.forEach((f) => fd.append("images", f));
 
     const tk = localStorage.getItem("tk");
@@ -89,8 +134,10 @@ export default function Repair() {
           <h2>Request received</h2>
           <p>
             Your ticket is <b>{ticket}</b>. Save it and use it with your phone number on the Track repair
-            page. If you are logged in, it also shows under My repairs. Bring the phone to {SHOP.short} or
-            WhatsApp us on {SHOP.phone}.
+            page. If you are logged in, it also shows under My repairs.{" "}
+            {pickup === "pickup"
+              ? "We will contact you to arrange the pickup."
+              : `Bring the phone to ${SHOP.short} or WhatsApp us on ${SHOP.phone}.`}
           </p>
         </div>
       </div>
@@ -204,40 +251,83 @@ export default function Repair() {
           </div>
         )}
 
+        {/* PICKUP OPTION */}
         <label>
-          Address line 1
-          <input
-            name="line1"
-            placeholder="House no., Society / Building"
-            minLength={5}
-            defaultValue={a.line1 || ""}
-            required
-          />
+          How will you give the phone?
+          <select value={pickup} onChange={(e) => setPickup(e.target.value as "pickup" | "walkin")}>
+            <option value="pickup">Pick up from my address</option>
+            <option value="walkin">I will bring it to the shop</option>
+          </select>
         </label>
-        <label>
-          Address line 2 (optional)
-          <input name="line2" placeholder="Area, Road" defaultValue={a.line2 || ""} />
-        </label>
-        <label>
-          Landmark (optional)
-          <input name="landmark" placeholder="Near..." defaultValue={a.landmark || ""} />
-        </label>
-        <label>
-          City
-          <input value="Ahmedabad" disabled readOnly />
-        </label>
-        <label>
-          Pincode
-          <input
-            name="pincode"
-            inputMode="numeric"
-            pattern="\d{6}"
-            maxLength={6}
-            placeholder="e.g. 380015 (Ahmedabad only)"
-            defaultValue={a.pincode || ""}
-            required
-          />
-        </label>
+
+        {/* ADDRESS + LOCATION (only for pickup) */}
+        {pickup === "pickup" && (
+          <>
+            <label>
+              Address line 1
+              <input
+                name="line1"
+                placeholder="House no., Society / Building"
+                minLength={5}
+                defaultValue={a.line1 || ""}
+                required
+              />
+            </label>
+            <label>
+              Address line 2 (optional)
+              <input name="line2" placeholder="Area, Road" defaultValue={a.line2 || ""} />
+            </label>
+            <label>
+              Landmark (optional)
+              <input name="landmark" placeholder="Near..." defaultValue={a.landmark || ""} />
+            </label>
+            <label>
+              City
+              <input value="Ahmedabad" disabled readOnly />
+            </label>
+            <label>
+              Pincode
+              <input
+                name="pincode"
+                inputMode="numeric"
+                pattern="\d{6}"
+                maxLength={6}
+                placeholder="e.g. 380015 (Ahmedabad only)"
+                defaultValue={a.pincode || ""}
+                required
+              />
+            </label>
+
+            <div>
+              <button type="button" className="btn" onClick={getMyLocation} disabled={locBusy}>
+                {locBusy
+                  ? "Getting location..."
+                  : coords
+                  ? "Update my location"
+                  : "📍 Use my current location"}
+              </button>
+              <p className="text-sm text-mute">
+                Optional. We use your location only to pick up your phone.
+              </p>
+              {coords && (
+                <p className="text-sm text-mute">
+                  Location saved (±{coords.acc} m).{" "}
+                  <a
+                    href={`https://www.google.com/maps?q=${coords.lat},${coords.lng}`}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Check on map
+                  </a>{" "}
+                  ·{" "}
+                  <button type="button" onClick={() => setCoords(null)}>
+                    Remove
+                  </button>
+                </p>
+              )}
+            </div>
+          </>
+        )}
 
         {err && (
           <div className="err" role="alert">
