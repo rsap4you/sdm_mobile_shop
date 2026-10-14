@@ -11,7 +11,7 @@ export const SHOP = {
   owner: "Pratik Patil",
   phone: "8856998493",
   owner2: "Viresh Kushwaha",
-  phone2: "8856998493",
+  phone2: "8264008135",
   wa: "https://wa.me/918856998493",
   wa2: "https://wa.me/918264008135",
   youtube: "https://www.youtube.com/@SDM2436",
