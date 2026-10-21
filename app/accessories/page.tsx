@@ -5,12 +5,12 @@ export const dynamic = "force-dynamic";
 // Static services list. Put matching image files in /public/services/
 // e.g. frontend/public/services/screen-repair.jpg
 const SERVICES = [
-  { name: "Screen Repair", image: "/our_services", desc: "Cracked or unresponsive display, replaced same day." },
-  { name: "Battery Replacement", image: "/services/battery.jpg", desc: "Original-quality batteries, quick swap." },
-  { name: "Water Damage Repair", image: "/services/water-damage.jpg", desc: "Cleaning and component-level repair." },
-  { name: "Charging Port Repair", image: "/services/charging-port.jpg", desc: "Loose or dead charging port fixed." },
-  { name: "Software & Data Recovery", image: "/services/software.jpg", desc: "OS issues, app crashes, data recovery." },
-  { name: "Camera Repair", image: "/services/camera.jpg", desc: "Blurry, cracked or non-working camera fixed." },
+  { name: "Screen Repair", image: "/screen_repair.svg", desc: "Cracked or unresponsive display, replaced same day." },
+  { name: "Battery Replacement", image: "/battery_replacement.svg", desc: "Original-quality batteries, quick swap." },
+  { name: "Water Damage Repair", image: "/water_damage_repair.svg", desc: "Cleaning and component-level repair." },
+  { name: "Charging Port Repair", image: "/charging_point_repair.svg", desc: "Loose or dead charging port fixed." },
+  { name: "Software & Data Recovery", image: "/software_data_recovery.svg", desc: "OS issues, app crashes, data recovery." },
+  { name: "Camera Repair", image: "/camera_repair.svg", desc: "Blurry, cracked or non-working camera fixed." },
 ];
 
 export default async function Acc() {
