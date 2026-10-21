@@ -263,4 +263,16 @@
   .two {
     @apply grid grid-cols-1 gap-8 md:grid-cols-2;
   }
+
+  /* ---------- HIDE NETLIFY BADGE ---------- */
+netlify-drawer,
+#netlify-drawer,
+[id*="netlify"],
+[class*="netlify"],
+a[href*="netlify.com"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
 }
