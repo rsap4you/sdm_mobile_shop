@@ -91,7 +91,7 @@ export default function Home() {
           <a className="btn alt" href={"tel:" + SHOP.phone}>
             📞 Call {SHOP.owner}
           </a>
-          <a className="btn alt" href={"tel:" + SHOP.phone}>
+          <a className="btn alt" href={"tel:" + SHOP.phone2}>
             📞 Call {SHOP.owner2}
           </a>
         </div>
