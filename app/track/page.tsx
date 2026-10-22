@@ -7,7 +7,7 @@ export default function Track() {
   async function go(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault(); setErr(""); setR(null);
     const q = new URLSearchParams(Object.fromEntries(new FormData(e.currentTarget)) as any);
-    const res = await fetch(API + "/api/repairs?" + q); const d = await res.json();
+    const res = await fetch(API + "/repairs?" + q); const d = await res.json();
     res.ok ? setR(d) : setErr(d.error);
   }
   return (<div className="w" style={{ padding: "40px 20px" }}><h1 style={{ fontSize: "2.2rem" }}>Track your repair</h1>
