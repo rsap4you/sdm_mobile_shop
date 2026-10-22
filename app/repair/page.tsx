@@ -113,7 +113,7 @@ export default function Repair() {
 
     const tk = localStorage.getItem("tk");
     try {
-  const res = await fetch(API + "/api/repairs", {
+  const res = await fetch(API + "/repairs", {
     method: "POST",
     headers: tk ? { Authorization: "Bearer " + tk } : {},
     body: fd,
