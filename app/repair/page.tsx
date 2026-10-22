@@ -111,7 +111,7 @@ export default function Repair() {
 
     files.forEach((f) => fd.append("images", f));
 
-    const tk = localStorage.getItem("tk");
+const tk = localStorage.getItem("token");
     try {
   const res = await fetch(API + "/repairs", {
     method: "POST",

@@ -132,7 +132,15 @@ export default function Nav() {
                     onClick={() => setOpen(false)}
                     className="menu-item"
                   >
-                    My account
+                    My Repair Account
+                  </Link>
+                     <Link
+                    href="/profile"
+                    role="menuitem"
+                    onClick={() => setOpen(false)}
+                    className="menu-item"
+                  >
+                    My Profile
                   </Link>
                   <button
                     type="button"
