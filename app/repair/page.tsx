@@ -113,17 +113,21 @@ export default function Repair() {
 
     const tk = localStorage.getItem("tk");
     try {
-      // Content-Type mat lagao: browser boundary ke saath khud set karta hai
-      const res = await fetch(API + "/api/repairs", {
-        method: "POST",
-        headers: tk ? { Authorization: "Bearer " + tk } : {},
-        body: fd,
-      });
-      const r = await res.json();
-      res.ok ? setTicket(r.ticket) : setErr(r.error || "Something went wrong.");
-    } catch {
-      setErr("Network error. Please try again.");
-    }
+  const res = await fetch(API + "/api/repairs", {
+    method: "POST",
+    headers: tk ? { Authorization: "Bearer " + tk } : {},
+    body: fd,
+  });
+
+  let r: any = {};
+  try { r = await res.json(); } catch {}
+
+  if (res.ok && r.ticket) setTicket(r.ticket);
+  else setErr(r.error || `Server error (${res.status}). Please try again.`);
+} catch (e) {
+  console.error("Repair submit failed:", e);
+  setErr("Could not reach the server. Check your internet and try again.");
+}
     setBusy(false);
   }
 
