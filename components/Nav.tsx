@@ -142,6 +142,14 @@ export default function Nav() {
                   >
                     My Profile
                   </Link>
+                            <Link
+                    href="/change_password"
+                    role="menuitem"
+                    onClick={() => setOpen(false)}
+                    className="menu-item"
+                  >
+                    Change Password
+                  </Link>
                   <button
                     type="button"
                     role="menuitem"

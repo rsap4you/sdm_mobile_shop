@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/auth";
 
@@ -61,23 +62,6 @@ export default function Profile() {
       say("profile", false, x.message);
     }
     setBusy(false);
-  }
-
-  async function changePassword(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    const form = e.currentTarget;
-    const d = Object.fromEntries(new FormData(form)) as Record<string, string>;
-    if (d.newPassword !== d.confirm) return say("password", false, "New passwords do not match.");
-    try {
-      await call("/auth/password", "PATCH", {
-        currentPassword: d.currentPassword,
-        newPassword: d.newPassword,
-      });
-      form.reset();
-      say("password", true, "Password changed.");
-    } catch (x: any) {
-      say("password", false, x.message);
-    }
   }
 
   async function changePhoto(e: React.ChangeEvent<HTMLInputElement>) {
@@ -186,15 +170,9 @@ export default function Profile() {
         )}
       </form>
 
-      {/* PASSWORD */}
-      <h2 style={{ marginTop: 32 }}>Change password</h2>
-      <form className="f" onSubmit={changePassword}>
-        <label>Current password<input name="currentPassword" type="password" required /></label>
-        <label>New password (8 or more characters)<input name="newPassword" type="password" minLength={8} required /></label>
-        <label>Confirm new password<input name="confirm" type="password" minLength={8} required /></label>
-        <Note k="password" />
-        <button className="btn">Change password</button>
-      </form>
+      <p style={{ marginTop: 24 }}>
+        <Link href="/profile/password">Change password →</Link>
+      </p>
     </div>
   );
 }
