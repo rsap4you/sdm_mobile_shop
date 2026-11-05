@@ -2,6 +2,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 
 export default function Preloader() {
   const [loading, setLoading] = useState(true);
@@ -25,9 +26,17 @@ export default function Preloader() {
   return (
     <div className="preloader">
       <div className="loader-content">
-        <div className="loader-icon">📱</div>
-        <h2>Shree Dhandai Mata Mobile</h2>
+        <Image
+          src="/logo_1.png"
+          alt="SDM Mobile Logo"
+          width={220}
+          height={120}
+          priority
+          className="loader-logo"
+        />
+
         <p>Loading your experience...</p>
+
         <div className="loader-bar">
           <div className="loader-progress"></div>
         </div>
