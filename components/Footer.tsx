@@ -31,6 +31,7 @@ export default function Footer() {
           <a href={"tel:" + SHOP.phone}>
             {SHOP.phone} / {SHOP.phone2}
           </a>
+            <h3 className="mt-5 mb-3">Follow us</h3>
           <SocialLinks />
         </div>
       </div>
