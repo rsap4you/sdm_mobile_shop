@@ -1,3 +1,4 @@
+
 import {
   FaSquareInstagram,
   FaSquareFacebook,
@@ -22,7 +23,6 @@ export const SHOP = {
     "Shop No 07, Ground Floor, Shyam Avenue, Opp. Navjivan Flat, Nr. Radhe Park, Old Asopalav Society Road, Vatva, Ahmedabad - 382440",
 };
 
-// Social links: yahin se manage karo (naya add karna ho to bas ek line jodo)
 export const SOCIALS = [
   { label: "WhatsApp", href: SHOP.wa, Icon: FaSquareWhatsapp, color: "#25D366" },
   { label: "Instagram", href: SHOP.insta, Icon: FaSquareInstagram, color: "#E4405F" },
@@ -62,7 +62,21 @@ export const ISSUE_ICONS: Record<string, string> = {
   Other: "⚙️",
 };
 
-export const BRANDS = ["Samsung", "Oppo", "OnePlus", "Vivo", "Mi", "Techno","Poco","Infinix","Nothing","GooglePixel","Apple","Other"];
+export const BRANDS = [
+  "Samsung",
+  "Oppo",
+  "OnePlus",
+  "Vivo",
+  "Mi",
+  "Techno",
+  "Poco",
+  "Infinix",
+  "Nothing",
+  "GooglePixel",
+  "Apple",
+  "Other",
+];
+
 export const BRAND_ICONS: Record<string, string> = {
   Samsung: "📱",
   Oppo: "📱",
@@ -78,7 +92,14 @@ export const BRAND_ICONS: Record<string, string> = {
   Other: "❓",
 };
 
-export const STATUSES = ["received", "diagnosing", "in repair", "ready for pickup", "delivered"];
+export const STATUSES = [
+  "received",
+  "diagnosing",
+  "in repair",
+  "ready for pickup",
+  "delivered",
+];
+
 export const STATUS_ICONS: Record<string, string> = {
   received: "📥",
   diagnosing: "🔍",
