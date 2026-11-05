@@ -95,9 +95,6 @@ export default function Home() {
             📞 Call {SHOP.owner2}
           </a>
         </div>
-
-        <h3 className="mt-5 mb-3">Follow us</h3>
-        <SocialLinks />
       </section>
     </div>
   );
