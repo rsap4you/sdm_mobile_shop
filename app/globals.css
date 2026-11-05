@@ -275,4 +275,66 @@ a[href*="netlify.com"] {
   opacity: 0 !important;
   pointer-events: none !important;
 }
+
+
+
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loader-content {
+  text-align: center;
+  width: 280px;
+}
+
+.loader-icon {
+  font-size: 55px;
+  margin-bottom: 15px;
+  animation: loaderPulse 1s infinite alternate;
+}
+
+.loader-content h2 {
+  font-size: 21px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.loader-content p {
+  color: #777;
+  font-size: 14px;
+  margin: 12px 0 20px;
+}
+
+.loader-bar {
+  width: 100%;
+  height: 5px;
+  background: #e5e7eb;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.loader-progress {
+  width: 40%;
+  height: 100%;
+  background: #2563eb;
+  border-radius: 20px;
+  animation: loaderMove 1.2s infinite ease-in-out;
+}
+
+@keyframes loaderMove {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(250%); }
+}
+
+@keyframes loaderPulse {
+  from { transform: scale(1); }
+  to { transform: scale(1.12); }
+}
+
 }
