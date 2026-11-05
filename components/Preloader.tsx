@@ -8,15 +8,31 @@ export default function Preloader() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const hideLoader = () => setLoading(false);
+    let pageLoaded = document.readyState === "complete";
+    let minimumTimePassed = false;
 
-    if (document.readyState === "complete") {
-      hideLoader();
-    } else {
+    const hideLoader = () => {
+      pageLoaded = true;
+      checkLoading();
+    };
+
+    const checkLoading = () => {
+      if (pageLoaded && minimumTimePassed) {
+        setLoading(false);
+      }
+    };
+
+    const timer = setTimeout(() => {
+      minimumTimePassed = true;
+      checkLoading();
+    }, 1500);
+
+    if (!pageLoaded) {
       window.addEventListener("load", hideLoader);
     }
 
     return () => {
+      clearTimeout(timer);
       window.removeEventListener("load", hideLoader);
     };
   }, []);
@@ -29,8 +45,8 @@ export default function Preloader() {
         <Image
           src="/logo_1.png"
           alt="SDM Mobile Logo"
-          width={220}
-          height={120}
+          width={250}
+          height={140}
           priority
           className="loader-logo"
         />
