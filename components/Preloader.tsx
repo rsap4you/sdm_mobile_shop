@@ -43,7 +43,7 @@ export default function Preloader() {
     <div className="preloader">
       <div className="loader-content">
         <Image
-          src="/logo_1.png"
+          src="/logo.png"
           alt="SDM Mobile Logo"
           width={250}
           height={140}
