@@ -303,4 +303,77 @@ a[href*="netlify.com"] {
   }
 }
 
+/* ===== FULL SCREEN PRELOADER ===== */
+
+.preloader {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  z-index: 9999999;
+  background: #1b0d2c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loader-content {
+  width: 85%;
+  max-width: 300px;
+  text-align: center;
+}
+
+.loader-logo {
+  width: 250px;
+  height: 140px;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto 20px;
+  animation: logoZoom 1.5s ease-in-out infinite alternate;
+}
+
+.loader-content p {
+  color: #f5eefc;
+  font-size: 14px;
+  margin: 15px 0 20px;
+}
+
+.loader-bar {
+  width: 100%;
+  height: 6px;
+  background: #4a2f73;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.loader-progress {
+  width: 40%;
+  height: 100%;
+  background: #ee3f8b;
+  border-radius: 20px;
+  animation: loaderMove 1.2s infinite ease-in-out;
+}
+
+@keyframes logoZoom {
+  0% {
+    transform: scale(0.4);
+    opacity: 0.4;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes loaderMove {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(250%);
+  }
+}
+
+
 }

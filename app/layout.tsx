@@ -33,9 +33,8 @@ export default function L({
   return (
     <html lang="en">
       <body className={f.variable}>
-        <Preloader />
-
         <AuthProvider>
+          <Preloader />
           <Nav />
           {children}
           <Footer />
